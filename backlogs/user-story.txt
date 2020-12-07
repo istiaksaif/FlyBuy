@@ -1,0 +1,10 @@
+    1. As a <Buyer> I want <register through Gmail account>, so that <I can save time and effort>.  
+    2. As a <Buyer> I want <my personal information to be saved securely>, so that <only I can see them>.
+    3. As a <Buyer> I want <see all the available products and their details>, so that <I can choose the best one for me>.
+    4. As a <Buyer> I want <to search products manually>, so that <I can save time and effort>.
+    5. As a <Buyer> I want <to virtually try on the product>, so that <i can see how it looks on me>.
+    6. As a <Buyer> I want <to add my products to cart>, so that <i can purchase multiple products at a time>.
+    7. As a <Buyer> I want <to select my desired payment method>, so that <i can assure that I'm not getting cheated >.
+    8. As a <Administrator> I want <to warn customers to strictly follow our terms & policy>, so that <the customers get a chance to correct their behavior>.
+    9. As a <Seller> I want <to add/update my product>, so that <i can assure my product up to date >.
+    
