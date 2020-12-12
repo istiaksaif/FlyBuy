@@ -1,0 +1,45 @@
+<resources>
+
+    <!-- Base application theme. -->
+<!--    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/dark_blue</item>-->
+<!--        <item name="colorPrimaryDark">@color/dark_blue</item>-->
+<!--        <item name="colorAccent">@color/pink</item>-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--    </style>-->
+
+<!--    <style name="AppTheme.ActionBar">-->
+<!--        <item name="windowActionBar">true</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+<!--    </style>-->
+
+<!--    <style name="AppThemeMaterial" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryDark">@color/dark_blue</item>-->
+<!--        <item name="colorAccent">@color/pink</item>-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--    </style>-->
+
+    <style name="AppBarCollapsed" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textStyle">bold</item>
+<!--        <item name="android:fontFamily">@font/roboto</item>-->
+    </style>
+
+    <style name="reportsCardStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_weight">.5</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="filter">
+        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+</resources>

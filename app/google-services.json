@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "710212774240",
+    "firebase_url": "https://flybuy-ecommerce.firebaseio.com",
+    "project_id": "flybuy-ecommerce",
+    "storage_bucket": "flybuy-ecommerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710212774240:android:9cba1b567fed475f579605",
+        "android_client_info": {
+          "package_name": "com.example.flybuy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710212774240-jfiq9pk4nf7bv08lkfgc30ot6ecp8ge7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCee4riSX-uDofkcKvXZ5V389p3QRk89B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710212774240-jfiq9pk4nf7bv08lkfgc30ot6ecp8ge7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
