@@ -171,6 +171,7 @@
                 android:fontFamily="@font/oswald"
                 android:clickable="true"
                 android:paddingTop="8dp"
+                android:transitionName=""
                 />
         </LinearLayout>
 </LinearLayout>

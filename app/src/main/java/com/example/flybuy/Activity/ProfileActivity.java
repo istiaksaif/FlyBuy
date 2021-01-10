@@ -25,20 +25,16 @@ public class ProfileActivity extends AppCompatActivity {
     private Button logoutButton;
     private GoogleSignInClient googleSignInClient;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail().build();
-        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+//        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+//                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .requestEmail().build();
+//        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
 
-
-        email = findViewById(R.id.eamil);
-        name = findViewById(R.id.name);
-        phone = findViewById(R.id.phone);
         logoutButton = findViewById(R.id.logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,18 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account!= null){
-            String pname = account.getDisplayName();
-            String pEmail = account.getEmail();
-            String pPhone = account.getId();
-
-            name.setText(pname);
-            email.setText(pEmail);
-            phone.setText(pPhone);
-        }
     }
     private void signOut(){
         FirebaseAuth.getInstance().signOut();

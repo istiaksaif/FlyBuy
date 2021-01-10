@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/ichome"
+        android:icon="@drawable/homeicon"
+        android:title="Home"
+        app:showAsAction="ifRoom">
+
+    </item>
+    <item
+        android:id="@+id/icseach"
+        android:icon="@drawable/search"
+        android:title="Search"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/iccart"
+        android:icon="@drawable/carticon"
+        android:title="Cart"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/icprofile"
+        android:icon="@drawable/profileicon"
+        android:title="Profile"
+        app:showAsAction="ifRoom">
+
+    </item>
+</menu>

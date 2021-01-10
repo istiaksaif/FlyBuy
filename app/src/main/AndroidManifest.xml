@@ -3,6 +3,9 @@
     package="com.example.flybuy">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,11 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".Activity.HomeActivity"></activity>
+        <activity android:name=".Activity.ProductDetailsActivity"></activity>
+        <activity
+            android:name=".Activity.SellerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.FlyBuy"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".Activity.RegistationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.FlyBuy"></activity>
+            android:theme="@style/Theme.FlyBuy" />
         <activity android:name=".Activity.ProfileActivity" />
         <activity
             android:name=".Activity.LogInActivity"

@@ -42,8 +42,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -70,6 +74,7 @@ public class LogInActivity extends AppCompatActivity{
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private LottieAnimationView cross;
+    private boolean valid = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,33 +91,33 @@ public class LogInActivity extends AppCompatActivity{
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String Email = email.getText().toString().trim();
                 String Password = password.getText().toString().trim();
 
 
-                if (TextUtils.isEmpty(Email)){
+                if (TextUtils.isEmpty(Email)) {
                     Toast.makeText(LogInActivity.this, "please enter Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(Password)){
+                if (TextUtils.isEmpty(Password)) {
                     Toast.makeText(LogInActivity.this, "please enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                mAuth.signInWithEmailAndPassword(Email,Password).addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                       if (task.isSuccessful()){
-                           Intent intent = new Intent(LogInActivity.this,ProfileActivity.class);
-                           startActivity(intent);
-                       }else {
-                           Toast.makeText(LogInActivity.this, "Login Failed"+task.getException().toString(), Toast.LENGTH_SHORT).show();
-                           Intent intent = new Intent(LogInActivity.this,LogInActivity.class);
-                           startActivity(intent);
-                       }
-                    }
-                });
-            }
+                    mAuth.signInWithEmailAndPassword(Email, Password).addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                checkIfSeller();
+                            } else {
+                                Toast.makeText(LogInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LogInActivity.this, LogInActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+                }
         });
 
         //signin by google part
@@ -177,6 +182,7 @@ public class LogInActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(LogInActivity.this,RegistationActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -201,6 +207,38 @@ public class LogInActivity extends AppCompatActivity{
 
     }
 
+    private void checkIfSeller() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        Query query = databaseReference.child(user.getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child("isUser").getValue(String.class).equals("Seller")) {
+                        Intent intent = new Intent(LogInActivity.this, SellerActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    if (snapshot.child("isUser").getValue(String.class).equals("User")) {
+                        Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
+//                        intent.putExtra("email",user.getEmail());
+                        startActivity(intent);
+                        finish();
+                    }
+//                    else{
+//                        Toast.makeText(LogInActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(LogInActivity.this, LogInActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void handleFacebookAccessToken(AccessToken accessToken) {
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mAuth.signInWithCredential(credential)
@@ -220,16 +258,15 @@ public class LogInActivity extends AppCompatActivity{
         });
     }
     
-//    protected void onStart(){
-//
-//        super.onStart();
-//        mAuth.addAuthStateListener(authStateListener);
-//        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-//            Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//        }
-//    }
+    protected void onStart(){
+
+        super.onStart();
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     private void signIn() {
         Intent signInintent = googleSignInClient.getSignInIntent();
@@ -260,7 +297,13 @@ public class LogInActivity extends AppCompatActivity{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            pushData();
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                pushData();
+                            }else{
+                                Intent intent = new Intent(LogInActivity.this,HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         } else {
                             Toast.makeText(LogInActivity.this,"Login Failed"
                                     +task.getException().toString(), Toast.LENGTH_SHORT).show();
@@ -276,15 +319,18 @@ public class LogInActivity extends AppCompatActivity{
         FirebaseUser user = mAuth.getCurrentUser();
         String pname = user.getDisplayName();
         String pEmail = user.getEmail();
-//        String pPhone = user.getPhoneNumber();
-        User userhelp = new User(pname,pEmail,null);
+        String isUser = "User";
+        User userhelp = new User(pname,pEmail,null,isUser,"","","");
         databaseReference.child(mAuth.getCurrentUser().getUid()).setValue(userhelp);
         updateUI(user);
+        finish();
     }
 
     private void updateUI(FirebaseUser user) {
-        Intent intent = new Intent(LogInActivity.this,ProfileActivity.class);
+        Intent intent = new Intent(LogInActivity.this,HomeActivity.class);
+        intent.putExtra("email",user.getEmail());
         startActivity(intent);
+        finish();
     }
 
     public void createpopupDiaglog(){
@@ -323,7 +369,7 @@ public class LogInActivity extends AppCompatActivity{
               @Override
               public void onComplete(@NonNull Task<Void> task) {
                  if(task.isSuccessful()){
-                     Toast.makeText(LogInActivity.this, "please check your email", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(LogInActivity.this, "please check your email and reset password", Toast.LENGTH_SHORT).show();
                      dialog.dismiss();
                  }
                  else{

@@ -71,6 +71,7 @@ public class RegistationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegistationActivity.this,LogInActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -80,6 +81,9 @@ public class RegistationActivity extends AppCompatActivity {
         String Email = email.getText().toString();
         String Password = password.getText().toString();
         String Password_re = passwordRepeat.getText().toString();
+//        String uid = firebaseAuth.getCurrentUser().getUid();
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+        String isUser = "User";
 
         if (TextUtils.isEmpty(FullName)){
             Toast.makeText(RegistationActivity.this, "please enter your Name", Toast.LENGTH_SHORT).show();
@@ -111,19 +115,23 @@ public class RegistationActivity extends AppCompatActivity {
         }
 
         firebaseAuth.createUserWithEmailAndPassword(Email,Password).addOnCompleteListener(RegistationActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
+//            FirebaseUser user = firebaseAuth.getCurrentUser();
+//            String uid = user.getUid();
+            @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User userhelp = new User(FullName,Email,Password);
+                            User userhelp = new User(FullName,Email,null,isUser,"","","");
                             databaseReference.child(firebaseAuth.getCurrentUser().getUid()).setValue(userhelp);
                             Toast.makeText(RegistationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegistationActivity.this,ProfileActivity.class);
+                            Intent intent = new Intent(RegistationActivity.this,HomeActivity.class);
+                            intent.putExtra("email",Email);
                             startActivity(intent);
                             finish();
                         } else {
                             Toast.makeText(RegistationActivity.this, "Authentication Failed "+task.getException().toString(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegistationActivity.this,RegistationActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     }
                 });
@@ -131,5 +139,4 @@ public class RegistationActivity extends AppCompatActivity {
     private Boolean isVallidEmail(CharSequence target){
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
-
 }
